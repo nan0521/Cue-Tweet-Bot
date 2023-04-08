@@ -4,8 +4,8 @@
 name: Tweet every hour
 
 on:
-  schedule:
-    - cron: '*/10 * * * *'
+#   schedule:
+#     - cron: '*/10 * * * *'
   workflow_dispatch :
 
 jobs:

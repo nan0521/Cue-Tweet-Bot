@@ -39,6 +39,6 @@ else :
 
 
     # Create a Tweet
-    tweet = f"{card['alias']}{card['heroine']}\ntweet Bot Running Test"
+    tweet = f"★{card['rarity']}{card['alias']}{card['heroine']}"
     api.update_status(status=tweet, media_ids=media_ids)
 

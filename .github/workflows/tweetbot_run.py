@@ -13,11 +13,11 @@ access_token_secret = os.environ.get("TWITTER_ACCESS_TOKEN_SECRET")
 if(not consumer_key):
     print('consumer_key not found')
 if(not consumer_secret):
-    print('consumer_key not found')
+    print('consumer_secret not found')
 if(not access_token):
-    print('consumer_key not found')
+    print('access_token not found')
 if(not access_token_secret):
-    print('consumer_key not found')
+    print('access_token_secret not found')
 
 # if(not consumer_key or not consumer_secret or not access_token or not access_token_secret):
 #     print('can not find the env')

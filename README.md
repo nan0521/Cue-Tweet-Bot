@@ -19,7 +19,7 @@ After that, you can go to your Twitter App dashboard to generate your API keys a
 
 ## Github Action environments setup
 
-you need to go to your repository **Setting** page to find **Secrets and variables** option and select the **Action** to create the environments.
+you need to fork this repository and go to your repository **Setting** page to find **Secrets and variables** option and select the **Action** to create the environments variables.
 
 then, click the **New repository secret** to append the following four variables
 1. TWITTER_CONSUMER_KEY 
@@ -37,6 +37,6 @@ on:
 #     - cron: '0 * * * *'
     workflow_dispatch :
 ```
-If you don't know how to set, you can use  [ schedule expression editor](https://crontab.guru/) to set it
+If you want to know more, you can use [ schedule expression editor](https://crontab.guru/) to check about it
 
 #

@@ -27,7 +27,11 @@ else :
 
     giturl = "https://raw.githubusercontent.com/Cpk0521/CUECardsViewer/master/public/"
 
-    image_urls = [f"{giturl}{card['image']['Normal']}", f"{giturl}{card['image']['Blooming']}"]
+    image_urls = [f"{giturl}{card['image']['Normal']}"]
+
+    if(card['image']['Blooming']):
+        image_urls.append(f"{giturl}{card['image']['Blooming']}")
+    
     media_ids = []
     for url in image_urls:
         response = requests.get(url)

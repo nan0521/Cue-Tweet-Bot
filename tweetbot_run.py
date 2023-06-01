@@ -10,7 +10,6 @@ consumer_secret = os.environ.get("TWITTER_CONSUMER_SECRET")
 access_token = os.environ.get("TWITTER_ACCESS_TOKEN")
 access_token_secret = os.environ.get("TWITTER_ACCESS_TOKEN_SECRET")
 
-
 if(not consumer_key or not consumer_secret or not access_token or not access_token_secret):
     print('can not find the env')
 else :
@@ -26,12 +25,18 @@ else :
 
     with open('./CardsData.json', 'r', encoding='utf-8') as json_file:
         jsondata = json.load(json_file)
+
+        #get random Card detail
         num = random.randint(0, len(jsondata['Cards']))
         card = jsondata['Cards'][num]
 
+        #get card image url
         giturl = "https://raw.githubusercontent.com/Cpk0521/CUECardsViewer/master/public/"
+        image_urls = [f"{giturl}{card['image']['Normal']}"]
+        if('Blooming' in card['image']):
+            image_urls.append(f"{giturl}{card['image']['Blooming']}")
 
-        image_urls = [f"{giturl}{card['image']['Normal']}", f"{giturl}{card['image']['Blooming']}"]
+        #upload image
         media_ids = []
         for url in image_urls:
             response = requests.get(url)
@@ -41,6 +46,9 @@ else :
             media = api_v1.media_upload(filename)
             media_ids.append(media.media_id)
 
+        #tweet text
         tweet = f"★{card['rarity']}{card['alias']}{card['heroine']}"
+
+        #creat tweet ant post it
         res = api_v2.create_tweet(text = tweet, media_ids=media_ids)
 

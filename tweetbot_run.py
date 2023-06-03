@@ -27,8 +27,9 @@ else :
         jsondata = json.load(json_file)
 
         #get random Card detail
-        num = random.randint(0, len(jsondata['Cards']))
-        card = jsondata['Cards'][num]
+        # num = random.randint(0, len(jsondata['Cards']))
+        # card = jsondata['Cards'][num]
+        card = random.choice(jsondata['Cards'])
 
         #get card image url
         giturl = "https://raw.githubusercontent.com/Cpk0521/CUECardsViewer/master/public/"

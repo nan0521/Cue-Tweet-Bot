@@ -3,6 +3,8 @@ import requests
 import os
 import json
 import random
+from datetime import datetime
+import pytz
 
 # Twitter API keys and access tokens
 consumer_key = os.environ.get("TWITTER_CONSUMER_KEY")
@@ -23,33 +25,60 @@ else :
                         consumer_key = consumer_key,
                         consumer_secret = consumer_secret)
 
-    with open('./CardsData.json', 'r', encoding='utf-8') as json_file:
-        jsondata = json.load(json_file)
+    #get datetime
+    Now = datetime.now(pytz.timezone('Asia/Tokyo'))
+    #cal interval
+    interval = Now.today() - STARTDAY
+    #get charid
+    charid = (interval.days % 16) + 1
 
-        #get random Card detail
-        # num = random.randint(0, len(jsondata['Cards']))
-        # card = jsondata['Cards'][num]
-        card = random.choice(jsondata['Cards'])
+    media_ids = []
 
-        #get card image url
-        giturl = "https://raw.githubusercontent.com/Cpk0521/CUECardsViewer/master/public/"
-        image_urls = [f"{giturl}{card['image']['Normal']}"]
-        if('Blooming' in card['image']):
-            image_urls.append(f"{giturl}{card['image']['Blooming']}")
+    if Now.hour == 0:
+        # midnight
+        file = './voice/midnight/voice_home_midnight_%03d.mp4' % (charid)
+        media = api_v1.media_upload(file)
+        media_ids.append(media.media_id)
+        tweet = '音声ツイートテスト'
+    elif Now.hour == 6:
+        # morning
+        file = './voice/midnight/voice_home_morning_%03d.mp4' % (charid)
+        media = api_v1.media_upload(file)
+        media_ids.append(media.media_id)
+        tweet = '音声ツイートテスト'
+    elif Now.hour == 12:
+        # noon
+        file = './voice/midnight/voice_home_noon_%03d.mp4' % (charid)
+        media = api_v1.media_upload(file)
+        media_ids.append(media.media_id)
+        tweet = '音声ツイートテスト'
+    elif Now.hour == 18:
+        # night
+        file = './voice/midnight/voice_home_night_%03d.mp4' % (charid)
+        media = api_v1.media_upload(file)
+        media_ids.append(media.media_id)
+        tweet = '音声ツイートテスト'
+    else:
+        with open('./CardsData.json', 'r', encoding='utf-8') as json_file:
+            jsondata = json.load(json_file)
+            card = random.choice(jsondata['Cards'])
 
-        #upload image
-        media_ids = []
-        for url in image_urls:
-            response = requests.get(url)
-            filename = 'temp.jpg'
-            with open(filename, 'wb') as f:
-                f.write(response.content)
-            media = api_v1.media_upload(filename)
-            media_ids.append(media.media_id)
+            #get card image url
+            giturl = "https://raw.githubusercontent.com/Cpk0521/CUECardsViewer/master/public/"
+            image_urls = [f"{giturl}{card['image']['Normal']}"]
+            if('Blooming' in card['image']):
+                image_urls.append(f"{giturl}{card['image']['Blooming']}")
 
-        #tweet text
-        tweet = f"★{card['rarity']}{card['alias']}{card['heroine']}"
+            # media_ids = []
+            for url in image_urls:
+                response = requests.get(url)
+                filename = 'temp.jpg'
+                with open(filename, 'wb') as f:
+                    f.write(response.content)
+                media = api_v1.media_upload(filename)
+                media_ids.append(media.media_id)
 
-        #creat tweet ant post it
-        res = api_v2.create_tweet(text = tweet, media_ids=media_ids)
+            tweet = f"★{card['rarity']}{card['alias']}{card['heroine']}"
+
+    res = api_v2.create_tweet(text = tweet, media_ids=media_ids)
 

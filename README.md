@@ -1,5 +1,5 @@
 # Cue-Tweet-Bot
-This is a simple Twitter bot that can post the tweet about game CUE! Card. 
+This is a simple Twitter bot that can post the tweet about game CUE! Card and CUE! voice assets. 
 It was developed using the **Python** and utilizes the **tweepy** module to interact with the Twitter API. 
 The bot can be set to run on a schedule using **GitHub Action**.
 

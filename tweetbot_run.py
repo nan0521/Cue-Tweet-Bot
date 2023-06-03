@@ -44,19 +44,19 @@ else :
         tweet = '音声ツイートテスト'
     elif Now.hour == 6:
         # morning
-        file = './voice/midnight/voice_home_morning_%03d.mp4' % (charid)
+        file = './voice/morning/voice_home_morning_%03d.mp4' % (charid)
         media = api_v1.media_upload(file)
         media_ids.append(media.media_id)
         tweet = '音声ツイートテスト'
     elif Now.hour == 12:
         # noon
-        file = './voice/midnight/voice_home_noon_%03d.mp4' % (charid)
+        file = './voice/noon/voice_home_noon_%03d.mp4' % (charid)
         media = api_v1.media_upload(file)
         media_ids.append(media.media_id)
         tweet = '音声ツイートテスト'
     elif Now.hour == 18:
         # night
-        file = './voice/midnight/voice_home_night_%03d.mp4' % (charid)
+        file = './voice/night/voice_home_night_%03d.mp4' % (charid)
         media = api_v1.media_upload(file)
         media_ids.append(media.media_id)
         tweet = '音声ツイートテスト'

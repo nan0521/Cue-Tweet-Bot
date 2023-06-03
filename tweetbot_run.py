@@ -25,6 +25,8 @@ else :
                         consumer_key = consumer_key,
                         consumer_secret = consumer_secret)
 
+    #get start DAY
+    STARTDAY = datetime(int(2023),int(6),4)
     #get datetime
     Now = datetime.now(pytz.timezone('Asia/Tokyo'))
     #cal interval

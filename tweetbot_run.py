@@ -6,6 +6,23 @@ import random
 from datetime import datetime
 import pytz
 
+#get Charactor data by datetime
+def getCharactor(Nowdatetime):
+    #get start DAY
+    STARTDAY = datetime(int(2023),int(6),4)
+    #cal interval
+    interval = Nowdatetime.today() - STARTDAY
+    #get charid
+    charid = (interval.days % 16) + 1
+
+    with open('./CharactorData.json', 'r', encoding='utf-8') as json_file:
+        jsondata = json.load(json_file)
+        HeroData = jsondata['Charactor']
+        charname = list(filter(lambda x: (x['id'] == charid), HeroData))
+    
+    return charid, charname[0]['name']
+
+
 # Twitter API keys and access tokens
 consumer_key = os.environ.get("TWITTER_CONSUMER_KEY")
 consumer_secret = os.environ.get("TWITTER_CONSUMER_SECRET")
@@ -25,41 +42,39 @@ else :
                         consumer_key = consumer_key,
                         consumer_secret = consumer_secret)
 
-    #get start DAY
-    STARTDAY = datetime(int(2023),int(6),4)
     #get datetime
     Now = datetime.now(pytz.timezone('Asia/Tokyo'))
-    #cal interval
-    interval = Now.today() - STARTDAY
-    #get charid
-    charid = (interval.days % 16) + 1
 
     media_ids = []
 
     if Now.hour == 0:
         # midnight
+        charid, charname = getCharactor(Now)
         file = './voice/midnight/voice_home_midnight_%03d.mp4' % (charid)
         media = api_v1.media_upload(file)
         media_ids.append(media.media_id)
-        tweet = '音声ツイートテスト'
+        tweet = f'{charname} ホームボイス 深夜'
     elif Now.hour == 6:
         # morning
+        charid, charname = getCharactor(Now)
         file = './voice/morning/voice_home_morning_%03d.mp4' % (charid)
         media = api_v1.media_upload(file)
         media_ids.append(media.media_id)
-        tweet = '音声ツイートテスト'
+        tweet = f'{charname} ホームボイス 朝'
     elif Now.hour == 12:
         # noon
+        charid, charname = getCharactor(Now)
         file = './voice/noon/voice_home_noon_%03d.mp4' % (charid)
         media = api_v1.media_upload(file)
         media_ids.append(media.media_id)
-        tweet = '音声ツイートテスト'
+        tweet = f'{charname} ホームボイス 昼'
     elif Now.hour == 18:
         # night
+        charid, charname = getCharactor(Now)
         file = './voice/night/voice_home_night_%03d.mp4' % (charid)
         media = api_v1.media_upload(file)
         media_ids.append(media.media_id)
-        tweet = '音声ツイートテスト'
+        tweet = f'{charname} ホームボイス 夜'
     else:
         with open('./CardsData.json', 'r', encoding='utf-8') as json_file:
             jsondata = json.load(json_file)

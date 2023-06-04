@@ -1,0 +1,118 @@
+{
+    "Charactor": [
+        {
+            "id": 1,
+            "name": "六石陽菜",
+            "birthMonth": 3,
+            "birthDay": 21
+        },
+        {
+            "id": 2,
+            "name": "鷹取舞花",
+            "birthMonth": 11,
+            "birthDay": 25
+        },
+        {
+            "id": 3,
+            "name": "鹿野志穂",
+            "birthMonth": 6,
+            "birthDay": 6
+        },
+        {
+            "id": 4,
+            "name": "月居ほのか",
+            "birthMonth": 1,
+            "birthDay": 9
+        },
+        {
+            "id": 5,
+            "name": "天童悠希",
+            "birthMonth": 10,
+            "birthDay": 30
+        },
+        {
+            "id": 6,
+            "name": "赤川千紗",
+            "birthMonth": 2,
+            "birthDay": 12
+        },
+        {
+            "id": 7,
+            "name": "恵庭あいり",
+            "birthMonth": 3,
+            "birthDay": 14
+        },
+        {
+            "id": 8,
+            "name": "九条柚葉",
+            "birthMonth": 7,
+            "birthDay": 6
+        },
+        {
+            "id": 9,
+            "name": "夜峰美晴",
+            "birthMonth": 5,
+            "birthDay": 12
+        },
+        {
+            "id": 10,
+            "name": "神室絢",
+            "birthMonth": 6,
+            "birthDay": 9
+        },
+        {
+            "id": 11,
+            "name": "宮路まほろ",
+            "birthMonth": 4,
+            "birthDay": 9
+        },
+        {
+            "id": 12,
+            "name": "日名倉莉子",
+            "birthMonth": 9,
+            "birthDay": 28
+        },
+        {
+            "id": 13,
+            "name": "丸山利恵",
+            "birthMonth": 12,
+            "birthDay": 18
+        },
+        {
+            "id": 14,
+            "name": "宇津木聡里",
+            "birthMonth": 7,
+            "birthDay": 19
+        },
+        {
+            "id": 15,
+            "name": "明神凛音",
+            "birthMonth": 8,
+            "birthDay": 12
+        },
+        {
+            "id": 16,
+            "name": "遠見鳴",
+            "birthMonth": 1,
+            "birthDay": 31
+        },
+        {
+            "id": 101,
+            "name": "鳳真咲",
+            "birthMonth": 10,
+            "birthDay": 31
+        },
+        {
+            "id": 102,
+            "name": "五十鈴りお",
+            "birthMonth": 5,
+            "birthDay": 4
+        },
+        {
+            "id": 103,
+            "name": "由良桐香",
+            "birthMonth": 1,
+            "birthDay": 17
+        }
+    ]
+}

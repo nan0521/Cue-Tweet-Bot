@@ -3,15 +3,15 @@ import requests
 import os
 import json
 import random
-from datetime import datetime
+import datetime
 import pytz
 
 #get Charactor data by datetime
 def getCharactor(Nowdatetime):
     #get start DAY
-    STARTDAY = datetime(int(2023),int(6),4)
+    STARTDAY = datetime.datetime(int(2023),int(6),4)
     #cal interval
-    interval = Nowdatetime.today() - STARTDAY
+    interval = Nowdatetime.replace(tzinfo=datetime.timezone.utc) - STARTDAY.replace(tzinfo=datetime.timezone.utc)
     #get charid
     charid = (interval.days % 16) + 1
 
@@ -43,7 +43,7 @@ else :
                         consumer_secret = consumer_secret)
 
     #get datetime
-    Now = datetime.now(pytz.timezone('Asia/Tokyo'))
+    Now = datetime.datetime.now(pytz.timezone('Asia/Tokyo'))
 
     media_ids = []
 

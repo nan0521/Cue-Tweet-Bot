@@ -75,6 +75,15 @@ else :
         media = api_v1.media_upload(file)
         media_ids.append(media.media_id)
         tweet = f'{charname} ホームボイス 夜'
+    elif Now.hour > 8 and Now.hour % 3 == 0:
+        # home voice 
+        charid, charname = getCharactor(Now)
+        vocieid =  ( Now.hour -3 ) /6
+        vocietext = {1 : '①', 2:'②', 3:'③'}
+        file = './voice/home/%02d/voice_home_normal_%03d.mp4' % (charid, vocieid)
+        media = api_v1.media_upload(file)
+        media_ids.append(media.media_id)
+        tweet = f'{charname} ホームボイス{vocietext[vocieid]}'
     else:
         with open('./CardsData.json', 'r', encoding='utf-8') as json_file:
             jsondata = json.load(json_file)

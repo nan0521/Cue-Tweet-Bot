@@ -105,6 +105,7 @@ else :
 
             # media_ids = []
             for url in image_urls:
+                print(url)
                 response = requests.get(url)
                 filename = 'temp.jpg'
                 with open(filename, 'wb') as f:
@@ -113,7 +114,6 @@ else :
                 media_ids.append(media.media_id)
 
             tweet = f"★{card['rarity']}{card['alias']}{card['heroine']}"
-            print(tweet)
-
+            
     res = api_v2.create_tweet(text = tweet, media_ids=media_ids)
 

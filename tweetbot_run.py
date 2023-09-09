@@ -22,6 +22,14 @@ def getCharactor(Nowdatetime):
     
     return charid, charname[0]['name']
 
+def send_tweet(tweet, media_ids, counter = 0):
+    if counter == 5:
+        return
+    
+    res = api_v2.create_tweet(text = tweet, media_ids=media_ids)
+    if not res.status_code == 200:
+        time.sleep(5)
+        return send_tweet(tweet, media_ids, counter = counter+1)
 
 # Twitter API keys and access tokens
 consumer_key = os.environ.get("TWITTER_CONSUMER_KEY")
@@ -105,6 +113,7 @@ else :
                 media_ids.append(media.media_id)
 
             tweet = f"★{card['rarity']}{card['alias']}{card['heroine']}"
+            print(tweet)
 
     res = api_v2.create_tweet(text = tweet, media_ids=media_ids)
 

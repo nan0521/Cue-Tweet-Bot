@@ -69,14 +69,14 @@ specialDay = [
         'name' : 'クリスマス',
         'Month' : 12,
         'day' : 24,
-        'tag' : 'chrismas',
+        'tag' : 'christmas',
         'file' : 'event_home_001',
     },
     {
         'name' : 'クリスマス',
         'Month' : 12,
         'day' : 25,
-        'tag' : 'chrismas',
+        'tag' : 'christmas',
         'file' : 'event_home_006',
     },
     # {

@@ -65,18 +65,20 @@ specialDay = [
     #     'day' : 1,
     #     'tag' : 'newYear'
     # },
-    # {
-    #     'name' : 'Xmas',
-    #     'Month' : 12,
-    #     'day' : 24,
-    #     'tag' : 'chrismas'
-    # },
-    # {
-    #     'name' : 'Xmas2',
-    #     'Month' : 12,
-    #     'day' : 25,
-    #     'tag' : 'chrismas'
-    # },
+    {
+        'name' : 'クリスマス',
+        'Month' : 12,
+        'day' : 24,
+        'tag' : 'chrismas',
+        'file' : 'event_home_001',
+    },
+    {
+        'name' : 'クリスマス',
+        'Month' : 12,
+        'day' : 25,
+        'tag' : 'chrismas',
+        'file' : 'event_home_006',
+    },
     # {
     #     'name' : 'Valentine',
     #     'Month' : 2,
@@ -93,7 +95,8 @@ specialDay = [
         'name' : 'ハロウィン',
         'Month' : 10,
         'day' : 31,
-        'tag' : 'halloween'
+        'tag' : 'halloween',
+        'file' : 'event_home_005',
     },
 ]
 
@@ -140,7 +143,7 @@ else :
             if Now.hour < 16:
                 Allchardata = json.load(open('./CharactorData.json', 'r', encoding='utf-8'))
                 char = [data for data in Allchardata["Charactor"] if data["id"] == (Now.hour + 1)][0]
-                file = './voice/%s/%02d/event_home_005.mp4' % (SpecialDay["tag"], char["id"]) # 記得改檔案名
+                file = './voice/%s/%02d/%s.mp4' % (SpecialDay["tag"], char["id"], SpecialDay["file"]) # 記得改檔案名
                 media = api_v1.media_upload(file)
                 media_ids.append(media.media_id)
                 tweet = f'{char["name"]} {SpecialDay["name"]} ホームボイス'

@@ -43,14 +43,13 @@ def connet_twitter(consumer_key, consumer_secret, access_token, access_token_sec
         return connet_twitter(consumer_key, consumer_secret, access_token, access_token_secret, retries)
 
 
-def send_tweet(tweet, media_ids, counter = 0):
-    if counter == 5:
-        return
-    
-    res = api_v2.create_tweet(text = tweet, media_ids=media_ids)
-    if not res.status_code == 200:
-        time.sleep(5)
-        return send_tweet(tweet, media_ids, counter = counter+1)
+# def send_tweet(tweet, media_ids, counter = 0):
+#     if counter == 5:
+#         return
+#     res = api_v2.create_tweet(text = tweet, media_ids=media_ids)
+#     if not res.status_code == 200:
+#         time.sleep(5)
+#         return send_tweet(tweet, media_ids, counter = counter+1)
 
 # Twitter API keys and access tokens
 consumer_key = os.environ.get("TWITTER_CONSUMER_KEY")
@@ -59,12 +58,13 @@ access_token = os.environ.get("TWITTER_ACCESS_TOKEN")
 access_token_secret = os.environ.get("TWITTER_ACCESS_TOKEN_SECRET")
 
 specialDay = [
-    # {
-    #     'name' : 'New Year',
-    #     'Month' : 1,
-    #     'day' : 1,
-    #     'tag' : 'newYear'
-    # },
+    {
+        'name' : 'New Year',
+        'Month' : 1,
+        'day' : 1,
+        'tag' : 'newYear',
+        'file' : 'event_home_007',
+    },
     {
         'name' : 'クリスマス',
         'Month' : 12,
@@ -140,7 +140,6 @@ else :
         # 如果是SpecialDay
         if len(isSpecialDay) > 0 and Now.hour > 7:
             SpecialDay = isSpecialDay[0]
-            # if Now.hour < 16:
             Allchardata = json.load(open('./CharactorData.json', 'r', encoding='utf-8'))
             char = [data for data in Allchardata["Charactor"] if data["id"] == (Now.hour - 7)][0]
             file = './voice/%s/%02d/%s.mp4' % (SpecialDay["tag"], char["id"], SpecialDay["file"]) # 記得改檔案名
@@ -148,66 +147,49 @@ else :
             media_ids.append(media.media_id)
             tweet = f'{char["name"]} {SpecialDay["name"]} ホームボイス'
             res = api_v2.create_tweet(text = tweet, media_ids=media_ids)
-        elif len(isSpecialDay) == 0:
-            if Now.hour == 0:
-                # midnight
-                charid, charname = getCharactor(Now)
-                file = './voice/midnight/voice_home_midnight_%03d.mp4' % (charid)
-                media = api_v1.media_upload(file)
-                media_ids.append(media.media_id)
-                tweet = f'{charname} ホームボイス 深夜'
-            elif Now.hour == 6:
-                # morning
-                charid, charname = getCharactor(Now)
-                file = './voice/morning/voice_home_morning_%03d.mp4' % (charid)
-                media = api_v1.media_upload(file)
-                media_ids.append(media.media_id)
-                tweet = f'{charname} ホームボイス 朝'
-            elif Now.hour == 12:
-                # noon
-                charid, charname = getCharactor(Now)
-                file = './voice/noon/voice_home_noon_%03d.mp4' % (charid)
-                media = api_v1.media_upload(file)
-                media_ids.append(media.media_id)
-                tweet = f'{charname} ホームボイス 昼'
-            elif Now.hour == 18:
-                # night
-                charid, charname = getCharactor(Now)
-                file = './voice/night/voice_home_night_%03d.mp4' % (charid)
-                media = api_v1.media_upload(file)
-                media_ids.append(media.media_id)
-                tweet = f'{charname} ホームボイス 夜'
-            elif Now.hour > 8 and Now.hour % 3 == 0:
-                # home voice 
-                charid, charname = getCharactor(Now)
-                vocieid =  ( Now.hour -3 ) /6
-                vocietext = {1 : '①', 2:'②', 3:'③'}
-                file = './voice/home/%02d/voice_home_normal_%03d.mp4' % (charid, vocieid)
-                media = api_v1.media_upload(file)
-                media_ids.append(media.media_id)
-                tweet = f'{charname} ホームボイス{vocietext[vocieid]}'
-            else:
-                with open('./CardsData.json', 'r', encoding='utf-8') as json_file:
-                    jsondata = json.load(json_file)
-                    card = random.choice(jsondata['Cards'])
+        
+        # midnight (不是SpecialDay)
+        elif len(isSpecialDay) == 0 and Now.hour == 0:
+            charid, charname = getCharactor(Now)
+            file = './voice/midnight/voice_home_midnight_%03d.mp4' % (charid)
+            media = api_v1.media_upload(file)
+            media_ids.append(media.media_id)
+            tweet = f'{charname} ホームボイス 深夜'
 
-                    #get card image url
-                    giturl = "https://raw.githubusercontent.com/Cpk0521/CUECardsViewer/master/public/"
-                    image_urls = [f"{giturl}{card['image']['Normal']}"]
-                    if('Blooming' in card['image']):
-                        image_urls.append(f"{giturl}{card['image']['Blooming']}")
+        # morning (不是SpecialDay)
+        elif len(isSpecialDay) == 0 and Now.hour == 6:
+            charid, charname = getCharactor(Now)
+            file = './voice/morning/voice_home_morning_%03d.mp4' % (charid)
+            media = api_v1.media_upload(file)
+            media_ids.append(media.media_id)
+            tweet = f'{charname} ホームボイス 朝'
 
-                    # media_ids = []
-                    for url in image_urls:
-                        print(url)
-                        response = requests.get(url)
-                        filename = 'temp.jpg'
-                        with open(filename, 'wb') as f:
-                            f.write(response.content)
-                        media = api_v1.media_upload(filename)
-                        media_ids.append(media.media_id)
+        # noon (不是SpecialDay)
+        elif len(isSpecialDay) == 0 and Now.hour == 12:
+            charid, charname = getCharactor(Now)
+            file = './voice/noon/voice_home_noon_%03d.mp4' % (charid)
+            media = api_v1.media_upload(file)
+            media_ids.append(media.media_id)
+            tweet = f'{charname} ホームボイス 昼'
 
-                    tweet = f"★{card['rarity']}{card['alias']}{card['heroine']}"
+        # night (不是SpecialDay)
+        elif len(isSpecialDay) == 0 and Now.hour == 18:
+            charid, charname = getCharactor(Now)
+            file = './voice/night/voice_home_night_%03d.mp4' % (charid)
+            media = api_v1.media_upload(file)
+            media_ids.append(media.media_id)
+            tweet = f'{charname} ホームボイス 夜'
+
+        # home voice (不是SpecialDay)
+        elif len(isSpecialDay) == 0 and Now.hour > 8 and Now.hour % 3 == 0:
+            charid, charname = getCharactor(Now)
+            vocieid =  ( Now.hour -3 ) /6
+            vocietext = {1 : '①', 2:'②', 3:'③'}
+            file = './voice/home/%02d/voice_home_normal_%03d.mp4' % (charid, vocieid)
+            media = api_v1.media_upload(file)
+            media_ids.append(media.media_id)
+            tweet = f'{charname} ホームボイス{vocietext[vocieid]}'
+
         else:
             with open('./CardsData.json', 'r', encoding='utf-8') as json_file:
                 jsondata = json.load(json_file)
@@ -231,6 +213,4 @@ else :
 
                 tweet = f"★{card['rarity']}{card['alias']}{card['heroine']}"
 
-    
         res = api_v2.create_tweet(text = tweet, media_ids=media_ids)
-

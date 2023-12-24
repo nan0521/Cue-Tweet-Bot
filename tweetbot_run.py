@@ -138,17 +138,17 @@ else :
         media_ids = []
         
         # 如果是SpecialDay
-        if len(isSpecialDay) > 0:
+        if len(isSpecialDay) > 0 and Now.hour > 7:
             SpecialDay = isSpecialDay[0]
-            if Now.hour < 16:
-                Allchardata = json.load(open('./CharactorData.json', 'r', encoding='utf-8'))
-                char = [data for data in Allchardata["Charactor"] if data["id"] == (Now.hour + 1)][0]
-                file = './voice/%s/%02d/%s.mp4' % (SpecialDay["tag"], char["id"], SpecialDay["file"]) # 記得改檔案名
-                media = api_v1.media_upload(file)
-                media_ids.append(media.media_id)
-                tweet = f'{char["name"]} {SpecialDay["name"]} ホームボイス'
-                res = api_v2.create_tweet(text = tweet, media_ids=media_ids)
-        else:
+            # if Now.hour < 16:
+            Allchardata = json.load(open('./CharactorData.json', 'r', encoding='utf-8'))
+            char = [data for data in Allchardata["Charactor"] if data["id"] == (Now.hour - 7)][0]
+            file = './voice/%s/%02d/%s.mp4' % (SpecialDay["tag"], char["id"], SpecialDay["file"]) # 記得改檔案名
+            media = api_v1.media_upload(file)
+            media_ids.append(media.media_id)
+            tweet = f'{char["name"]} {SpecialDay["name"]} ホームボイス'
+            res = api_v2.create_tweet(text = tweet, media_ids=media_ids)
+        elif len(isSpecialDay) == 0:
             if Now.hour == 0:
                 # midnight
                 charid, charname = getCharactor(Now)
@@ -208,6 +208,29 @@ else :
                         media_ids.append(media.media_id)
 
                     tweet = f"★{card['rarity']}{card['alias']}{card['heroine']}"
-                    
-            res = api_v2.create_tweet(text = tweet, media_ids=media_ids)
+        else:
+            with open('./CardsData.json', 'r', encoding='utf-8') as json_file:
+                jsondata = json.load(json_file)
+                card = random.choice(jsondata['Cards'])
+
+                #get card image url
+                giturl = "https://raw.githubusercontent.com/Cpk0521/CUECardsViewer/master/public/"
+                image_urls = [f"{giturl}{card['image']['Normal']}"]
+                if('Blooming' in card['image']):
+                    image_urls.append(f"{giturl}{card['image']['Blooming']}")
+
+                # media_ids = []
+                for url in image_urls:
+                    print(url)
+                    response = requests.get(url)
+                    filename = 'temp.jpg'
+                    with open(filename, 'wb') as f:
+                        f.write(response.content)
+                    media = api_v1.media_upload(filename)
+                    media_ids.append(media.media_id)
+
+                tweet = f"★{card['rarity']}{card['alias']}{card['heroine']}"
+
+    
+        res = api_v2.create_tweet(text = tweet, media_ids=media_ids)
 

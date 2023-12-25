@@ -43,13 +43,13 @@ def connet_twitter(consumer_key, consumer_secret, access_token, access_token_sec
         return connet_twitter(consumer_key, consumer_secret, access_token, access_token_secret, retries)
 
 
-# def send_tweet(tweet, media_ids, counter = 0):
-#     if counter == 5:
-#         return
-#     res = api_v2.create_tweet(text = tweet, media_ids=media_ids)
-#     if not res.status_code == 200:
-#         time.sleep(5)
-#         return send_tweet(tweet, media_ids, counter = counter+1)
+def send_tweet(tweet, media_ids, counter = 0):
+    if counter == 5:
+        return
+    res = api_v2.create_tweet(text = tweet, media_ids=media_ids)
+    if not res.status_code == 200:
+        time.sleep(5)
+        return send_tweet(tweet, media_ids, counter = counter+1)
 
 # Twitter API keys and access tokens
 consumer_key = os.environ.get("TWITTER_CONSUMER_KEY")
@@ -146,7 +146,6 @@ else :
             media = api_v1.media_upload(file)
             media_ids.append(media.media_id)
             tweet = f'{char["name"]} {SpecialDay["name"]} ホームボイス'
-            res = api_v2.create_tweet(text = tweet, media_ids=media_ids)
         
         # midnight (不是SpecialDay)
         elif len(isSpecialDay) == 0 and Now.hour == 0:

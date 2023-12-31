@@ -59,7 +59,7 @@ access_token_secret = os.environ.get("TWITTER_ACCESS_TOKEN_SECRET")
 
 specialDay = [
     {
-        'name' : '新年',
+        'name' : '謹賀新年',
         'Month' : 1,
         'day' : 1,
         'tag' : 'newYear',

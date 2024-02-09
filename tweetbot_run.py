@@ -79,12 +79,13 @@ specialDay = [
         'tag' : 'christmas',
         'file' : 'event_home_006',
     },
-    # {
-    #     'name' : 'Valentine',
-    #     'Month' : 2,
-    #     'day' : 14,
-    #     'tag' : 'valentine'
-    # },
+    {
+        'name' : 'バレンタイン',
+        'Month' : 2,
+        'day' : 14,
+        'tag' : 'valentine',
+        'file' : 'event_home_003',
+    },
     # {
     #     'name' : 'White Day',
     #     'Month' : 3,

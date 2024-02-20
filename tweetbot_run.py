@@ -86,12 +86,13 @@ specialDay = [
         'tag' : 'valentine',
         'file' : 'event_home_003',
     },
-    # {
-    #     'name' : 'White Day',
-    #     'Month' : 3,
-    #     'day' : 14,
-    #     'tag' : 'whiteday'
-    # },
+    {
+        'name' : 'ホワイトデー',
+        'Month' : 3,
+        'day' : 14,
+        'tag' : 'whiteday'
+        'file' : 'event_home_004',
+    },
     {
         'name' : 'ハロウィン',
         'Month' : 10,

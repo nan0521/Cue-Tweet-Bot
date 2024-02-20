@@ -90,7 +90,7 @@ specialDay = [
         'name' : 'ホワイトデー',
         'Month' : 3,
         'day' : 14,
-        'tag' : 'whiteday'
+        'tag' : 'whiteday',
         'file' : 'event_home_004',
     },
     {

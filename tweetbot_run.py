@@ -38,8 +38,8 @@ def connet_twitter(consumer_key, consumer_secret, access_token, access_token_sec
         return api_v1, api_v2
     except:
         retries -= 1
-        print('Retrying.', retries)
         time.sleep(5)
+        print('Retrying :', retries)
         return connet_twitter(consumer_key, consumer_secret, access_token, access_token_secret, retries)
 
 
@@ -49,6 +49,7 @@ def send_tweet(tweet, media_ids, counter = 0):
     res = api_v2.create_tweet(text = tweet, media_ids=media_ids)
     if not res.status_code == 200:
         time.sleep(5)
+        print('send tweet retrying :', retries)
         return send_tweet(tweet, media_ids, counter = counter+1)
 
 # Twitter API keys and access tokens

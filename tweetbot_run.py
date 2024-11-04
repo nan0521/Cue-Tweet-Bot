@@ -46,8 +46,13 @@ def connet_twitter(consumer_key, consumer_secret, access_token, access_token_sec
 def send_tweet(tweet, media_ids, counter = 0):
     if counter == 5:
         return
-    res = api_v2.create_tweet(text = tweet, media_ids=media_ids)
-    if not res.status_code == 200:
+    try:
+        res = api_v2.create_tweet(text = tweet, media_ids=media_ids)
+        if not res.status_code == 200:
+            time.sleep(5)
+            print('send tweet retrying :', retries)
+            return send_tweet(tweet, media_ids, counter = counter+1)
+    except:
         time.sleep(5)
         print('send tweet retrying :', retries)
         return send_tweet(tweet, media_ids, counter = counter+1)

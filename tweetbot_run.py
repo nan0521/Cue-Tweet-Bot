@@ -43,19 +43,15 @@ def connet_twitter(consumer_key, consumer_secret, access_token, access_token_sec
         return connet_twitter(consumer_key, consumer_secret, access_token, access_token_secret, retries)
 
 
-def send_tweet(tweet, media_ids, counter = 0):
+def send_tweet(api, tweet, media_ids, counter = 0):
     if counter == 5:
         return
     try:
-        res = api_v2.create_tweet(text = tweet, media_ids=media_ids)
-        if not res.status_code == 200:
-            time.sleep(5)
-            print('send tweet retrying :', retries)
-            return send_tweet(tweet, media_ids, counter = counter+1)
+        api.create_tweet(text = tweet, media_ids=media_ids)
     except:
         time.sleep(5)
-        print('send tweet retrying :', retries)
-        return send_tweet(tweet, media_ids, counter = counter+1)
+        print('send tweet retrying :', counter)
+        return send_tweet(api, tweet, media_ids, counter = counter+1)
 
 # Twitter API keys and access tokens
 consumer_key = os.environ.get("TWITTER_CONSUMER_KEY")
@@ -220,4 +216,5 @@ else :
 
                 tweet = f"★{card['rarity']}{card['alias']}{card['heroine']}"
 
-        res = api_v2.create_tweet(text = tweet, media_ids=media_ids)
+        # res = api_v2.create_tweet(text = tweet, media_ids=media_ids)
+        send_tweet(api_v2, tweet, media_ids)

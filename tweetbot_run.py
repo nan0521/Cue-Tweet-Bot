@@ -5,6 +5,7 @@ import json
 import random
 import datetime
 import pytz
+import time
 
 #get Charactor data by datetime
 def getCharactor(Nowdatetime):

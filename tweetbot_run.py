@@ -37,9 +37,10 @@ def connet_twitter(consumer_key, consumer_secret, access_token, access_token_sec
                             consumer_key = consumer_key,
                             consumer_secret = consumer_secret)
         return api_v1, api_v2
-    except:
+    except Exception as e:
         retries -= 1
-        time.sleep(5)
+        time.sleep(10)
+        print(e)
         print('Retrying :', retries)
         return connet_twitter(consumer_key, consumer_secret, access_token, access_token_secret, retries)
 
@@ -49,8 +50,9 @@ def send_tweet(api, tweet, media_ids, counter = 0):
         return
     try:
         api.create_tweet(text = tweet, media_ids=media_ids)
-    except:
-        time.sleep(5)
+    except Exception as e:
+        time.sleep(10)
+        print(e)
         print('send tweet retrying :', counter)
         return send_tweet(api, tweet, media_ids, counter = counter+1)
 

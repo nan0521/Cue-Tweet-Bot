@@ -35,8 +35,7 @@ def connet_twitter(consumer_key, consumer_secret, access_token, access_token_sec
         api_v2  = tweepy.Client(access_token = access_token,
                             access_token_secret = access_token_secret,
                             consumer_key = consumer_key,
-                            consumer_secret = consumer_secret,
-                            wait_on_rate_limit = True)
+                            consumer_secret = consumer_secret)
         return api_v1, api_v2
     except Exception as e:
         retries -= 1

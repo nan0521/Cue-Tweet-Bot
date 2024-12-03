@@ -220,5 +220,7 @@ else :
 
                 tweet = f"★{card['rarity']}{card['alias']}{card['heroine']}"
 
-        res = api_v2.create_tweet(text = tweet, media_ids=media_ids)
+        if len(media_ids) > 0 :
+            print(tweet)
+            res = api_v2.create_tweet(text = tweet, media_ids=media_ids)
         # send_tweet(api_v2, tweet, media_ids)

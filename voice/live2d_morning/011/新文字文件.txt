@@ -1,0 +1,15 @@
+live2d.model.position.set(1334 / 2, 750 + 50);
+const click = async () => {
+    Recorder?.onStart();
+
+    live2d.model.expression(live2d.getExpressionsByName("F_01"));
+    live2d.model.motion("", live2d.getMotionByName('P_06'), 'FORCE');//07
+    live2d.ask('http://localhost:5500/voice/011/voice_home_morning_001.wav');
+
+    setTimeout(()=>{
+        Recorder?.onStop();
+        // live2d.model.expression(live2d.getExpressionsByName("F_07"));
+    }, 2500);
+
+    // window.removeEventListener('click', click);
+}

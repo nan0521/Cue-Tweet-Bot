@@ -1,0 +1,14 @@
+
+const click = async () => {
+    Recorder?.onStart();
+
+    live2d.model.expression(live2d.getExpressionsByName("F_04"));
+    // live2d.model.internalModel.off('beforeModelUpdate', closeEyes);
+    live2d.model.motion("", live2d.getMotionByName('P_04'), 'FORCE');
+    live2d.ask('http://localhost:3000/playground/public/voice/003/voice_home_noon_001.wav');
+
+    setTimeout(()=>{
+        Recorder?.onStop();
+    }, 3500);
+    // window.removeEventListener('click', click);
+}

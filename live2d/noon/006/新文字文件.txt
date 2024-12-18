@@ -1,0 +1,25 @@
+
+const mouthset = () => {
+    live2d.model.internalModel.coreModel.setParameterValueById('Param_mouth_form01', 1);
+}
+live2d.model.internalModel.on('beforeModelUpdate', mouthset)
+const click = async () => {
+    Recorder?.onStart();
+
+    live2d.model.expression(live2d.getExpressionsByName("F_01"));
+    // live2d.model.internalModel.off('beforeModelUpdate', closeEyes);
+    live2d.model.motion("", live2d.getMotionByName('P_11'), 'FORCE');
+    live2d.ask('http://localhost:5500/voice/006/voice_home_noon_001.wav');
+
+
+    setTimeout(()=>{
+        live2d.model.motion("", live2d.getMotionByName('P_08'), 'FORCE');
+    }, 1900);
+
+    
+    setTimeout(()=>{
+        Recorder?.onStop();
+    }, 5500);
+
+    // window.removeEventListener('click', click);
+}

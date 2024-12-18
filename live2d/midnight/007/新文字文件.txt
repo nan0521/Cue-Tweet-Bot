@@ -1,0 +1,26 @@
+const click = async () => {
+    Recorder?.onStart();
+
+    live2d.model.expression(live2d.getExpressionsByName("F_01"));
+    live2d.model.internalModel.on('beforeModelUpdate', closeEyes);
+    live2d.model.motion("", live2d.getMotionByName('P_22'), 'FORCE');
+    live2d.ask('http://localhost:5500/voice/007/voice_home_midnight_001.wav');
+
+
+    setTimeout(()=>{
+        live2d.model.expression(live2d.getExpressionsByName("F_05"));
+        live2d.model.internalModel.off('beforeModelUpdate', closeEyes);
+        live2d.model.motion("", live2d.getMotionByName('P_21'), 'FORCE');
+    }, 6000);
+
+    setTimeout(()=>{
+        live2d.model.expression(live2d.getExpressionsByName("F_10"));
+    }, 6900);
+
+    setTimeout(()=>{
+        Recorder?.onStop();
+        live2d.model.expression(live2d.getExpressionsByName("F_01"));
+    }, 11500);
+
+    // window.removeEventListener('click', click);
+}

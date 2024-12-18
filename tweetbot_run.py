@@ -6,11 +6,12 @@ import random
 import datetime
 import pytz
 import time
+import math
 
 #get Charactor data by datetime
 def getCharactor(Nowdatetime):
     #get start DAY
-    STARTDAY = datetime.datetime(int(2023),int(6),4)
+    STARTDAY = datetime.datetime(int(2023),int(6),int(4))
     #cal interval
     interval = Nowdatetime.replace(tzinfo=datetime.timezone.utc) - STARTDAY.replace(tzinfo=datetime.timezone.utc)
     #get charid
@@ -19,9 +20,10 @@ def getCharactor(Nowdatetime):
     with open('./CharactorData.json', 'r', encoding='utf-8') as json_file:
         jsondata = json.load(json_file)
         HeroData = jsondata['Charactor']
-        charname = list(filter(lambda x: (x['id'] == charid), HeroData))
+        chardata = list(filter(lambda x: (x['id'] == charid), HeroData))
+        costume = (math.floor(interval.days / 16) % chardata[0]['costume']) + 1
     
-    return charid, charname[0]['name']
+    return charid, chardata[0]['name'], costume
 
 # connect to X
 def connet_twitter(consumer_key, consumer_secret, access_token, access_token_secret, retries = 5):
@@ -156,39 +158,43 @@ else :
         
         # midnight (不是SpecialDay)
         elif len(isSpecialDay) == 0 and Now.hour == 0:
-            charid, charname = getCharactor(Now)
-            file = './voice/midnight/voice_home_midnight_%03d.mp4' % (charid)
+            charid, charname, costume = getCharactor(Now)
+            # file = './voice/midnight/voice_home_midnight_%03d.mp4' % (charid)
+            file = './live2d/midnight/%03d/%03d_%02d.mp4' % (charid, charid, costume)
             media = api_v1.media_upload(file)
             media_ids.append(media.media_id)
             tweet = f'{charname} ホームボイス 深夜'
 
         # morning (不是SpecialDay)
         elif len(isSpecialDay) == 0 and Now.hour == 6:
-            charid, charname = getCharactor(Now)
-            file = './voice/morning/voice_home_morning_%03d.mp4' % (charid)
+            charid, charname, costume = getCharactor(Now)
+            # file = './voice/morning/voice_home_morning_%03d.mp4' % (charid)
+            file = './live2d/morning/%03d/%03d_%02d.mp4' % (charid, charid, costume)
             media = api_v1.media_upload(file)
             media_ids.append(media.media_id)
             tweet = f'{charname} ホームボイス 朝'
 
         # noon (不是SpecialDay)
         elif len(isSpecialDay) == 0 and Now.hour == 12:
-            charid, charname = getCharactor(Now)
-            file = './voice/noon/voice_home_noon_%03d.mp4' % (charid)
+            charid, charname, costume = getCharactor(Now)
+            # file = './voice/noon/voice_home_noon_%03d.mp4' % (charid)
+            file = './live2d/noon/%03d/%03d_%02d.mp4' % (charid, charid, costume)
             media = api_v1.media_upload(file)
             media_ids.append(media.media_id)
             tweet = f'{charname} ホームボイス 昼'
 
         # night (不是SpecialDay)
         elif len(isSpecialDay) == 0 and Now.hour == 18:
-            charid, charname = getCharactor(Now)
-            file = './voice/night/voice_home_night_%03d.mp4' % (charid)
+            charid, charname, costume = getCharactor(Now)
+            # file = './voice/night/voice_home_night_%03d.mp4' % (charid)
+            file = './live2d/night/%03d/%03d_%02d.mp4' % (charid, charid, costume)
             media = api_v1.media_upload(file)
             media_ids.append(media.media_id)
             tweet = f'{charname} ホームボイス 夜'
 
         # home voice (不是SpecialDay)
         # elif len(isSpecialDay) == 0 and Now.hour > 8 and Now.hour % 3 == 0:
-        #     charid, charname = getCharactor(Now)
+        #     charid, charname, costume = getCharactor(Now)
         #     vocieid =  ( Now.hour -3 ) /6
         #     vocietext = {1 : '①', 2:'②', 3:'③'}
         #     file = './voice/home/%02d/voice_home_normal_%03d.mp4' % (charid, vocieid)

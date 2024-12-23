@@ -202,7 +202,7 @@ else :
         #     media_ids.append(media.media_id)
         #     tweet = f'{charname} ホームボイス{vocietext[vocieid]}'
 
-        elif Now.hour % 2 == 0:
+        elif len(isSpecialDay) == 0 and Now.hour % 2 == 0:
 
             with open('./CardsData.json', 'r', encoding='utf-8') as json_file:
                 jsondata = json.load(json_file)

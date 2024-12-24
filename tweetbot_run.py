@@ -147,10 +147,11 @@ else :
         media_ids = []
         
         # 如果是SpecialDay
-        if len(isSpecialDay) > 0 and Now.hour > 7:
+        # 6 7 8 9  10 11 12 13  14 15 16 17  18 19 20 21
+        if len(isSpecialDay) > 0 and Now.hour > 5 and Now.hour < 22:
             SpecialDay = isSpecialDay[0]
             Allchardata = json.load(open('./CharactorData.json', 'r', encoding='utf-8'))
-            char = [data for data in Allchardata["Charactor"] if data["id"] == (Now.hour - 7)][0]
+            char = [data for data in Allchardata["Charactor"] if data["id"] == (Now.hour - 5)][0]
             file = './voice/%s/%02d/%s.mp4' % (SpecialDay["tag"], char["id"], SpecialDay["file"]) # 記得改檔案名
             media = api_v1.media_upload(file)
             media_ids.append(media.media_id)

@@ -160,7 +160,7 @@ else :
         if(Now.hour == 0):
             hasBirthdayChar = getBirthdayCharactor(Now)
             if len(hasBirthdayChar) > 0:
-                hb_tweet = f'本日{Now.month}/{Now.day}は{hasBirthdayChar[0]['name']}の誕生日！🎂🎉'
+                hb_tweet = f'本日{Now.month}/{Now.day}は{hasBirthdayChar[0]["name"]}の誕生日！🎂🎉'
                 hb_videofile = './happybirthday/hb_%02d.mp4' % (hasBirthdayChar[0]['id'])
                 hb_media = api_v1.media_upload(hb_videofile)
                 hb_media_ids = []

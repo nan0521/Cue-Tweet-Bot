@@ -8,6 +8,18 @@ import pytz
 import time
 import math
 
+
+# get Charactor data by json
+with open('./CharactorData.json', 'r', encoding='utf-8') as json_file:
+    jsondata = json.load(json_file)
+    HeroData = jsondata['Charactor']
+
+# find happy birthday
+def getBirthdayCharactor(Nowdatetime):
+    chardata = list(filter(lambda x: (x['birthMonth'] == Now.month and x['birthDay'] == Now.day and x['id'] < 100), HeroData))
+
+    return chardata
+
 #get Charactor data by datetime
 def getCharactor(Nowdatetime):
     #get start DAY
@@ -17,11 +29,9 @@ def getCharactor(Nowdatetime):
     #get charid
     charid = (interval.days % 16) + 1
 
-    with open('./CharactorData.json', 'r', encoding='utf-8') as json_file:
-        jsondata = json.load(json_file)
-        HeroData = jsondata['Charactor']
-        chardata = list(filter(lambda x: (x['id'] == charid), HeroData))
-        costume = (math.floor(interval.days / 16) % chardata[0]['costume']) + 1
+    # get Charactor data from HeroData
+    chardata = list(filter(lambda x: (x['id'] == charid), HeroData))
+    costume = (math.floor(interval.days / 16) % chardata[0]['costume']) + 1
     
     return charid, chardata[0]['name'], costume
 
@@ -145,7 +155,18 @@ else :
         isSpecialDay = [spday for spday in specialDay if Now.month == spday['Month'] and Now.day == spday['day']]
 
         media_ids = []
-        
+
+        # 如果是生日
+        if(Now.hour == 0):
+            hasBirthdayChar = getCharactor(Now)
+            if len(hasBirthdayChar) > 0:
+                hb_tweet = f'本日{Now.month}/{Now.day}は{hasBirthdayChar[0]['name']}の誕生日！🎂🎉'
+                hb_videofile = './happybirthday/hb_%02d.mp4' % (hasBirthdayChar[0]['id'])
+                hb_media = api_v1.media_upload(hb_videofile)
+                hb_media_ids = []
+                hb_media_ids.append(hb_media.media_id)
+                api_v2.create_tweet(text = hb_tweet, media_ids=hb_media_ids)
+
         # 如果是SpecialDay
         # 6 7 8 9  10 11 12 13  14 15 16 17  18 19 20 21
         if len(isSpecialDay) > 0 and Now.hour > 5 and Now.hour < 22:

@@ -226,29 +226,36 @@ else :
 
         elif len(isSpecialDay) == 0 and Now.hour % 2 == 0:
 
+            giturl = "https://raw.githubusercontent.com/Cpk0521/CUECardsViewer/master/public/"
             with open('./CardsData.json', 'r', encoding='utf-8') as json_file:
                 jsondata = json.load(json_file)
-                card = random.choice(jsondata['Cards'])
-
-                #get card image url
-                giturl = "https://raw.githubusercontent.com/Cpk0521/CUECardsViewer/master/public/"
-                image_urls = [f"{giturl}{card['image']['Normal']}"]
-                if('Blooming' in card['image']):
-                    image_urls.append(f"{giturl}{card['image']['Blooming']}")
-
-                # media_ids = []
-                for url in image_urls:
-                    print(url)
-                    response = requests.get(url)
-                    filename = 'temp.jpg'
-                    with open(filename, 'wb') as f:
-                        f.write(response.content)
-                    media = api_v1.media_upload(filename)
+                
+                if Now.hour == 8 or Now.hour == 14 or Now.hour == 20:
+                    card = random.choice([x for x in jsondata['Cards'] if x['rarity'] == "4"])
+                    file = f"{giturl}{card['animation']}"
+                    media = api_v1.media_upload(file)
                     media_ids.append(media.media_id)
+                    tweet = f"★{card['rarity']}{card['alias']}{card['heroine']} ガチャ動画"
+                else :
+                    card = random.choice(jsondata['Cards'])
+                    #get card image url
+                    image_urls = [f"{giturl}{card['image']['Normal']}"]
+                    if('Blooming' in card['image']):
+                        image_urls.append(f"{giturl}{card['image']['Blooming']}")
 
-                tweet = f"★{card['rarity']}{card['alias']}{card['heroine']}"
+                    # media_ids = []
+                    for url in image_urls:
+                        print(url)
+                        response = requests.get(url)
+                        filename = 'temp.jpg'
+                        with open(filename, 'wb') as f:
+                            f.write(response.content)
+                        media = api_v1.media_upload(filename)
+                        media_ids.append(media.media_id)
+
+                    tweet = f"★{card['rarity']}{card['alias']}{card['heroine']}"
 
         if len(media_ids) > 0 :
             print(tweet)
-            res = api_v2.create_tweet(text = tweet, media_ids=media_ids)
-            # send_tweet(api_v2, tweet, media_ids)
+            # res = api_v2.create_tweet(text = tweet, media_ids=media_ids)
+            send_tweet(api_v2, tweet, media_ids)

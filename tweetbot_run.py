@@ -232,9 +232,15 @@ else :
                 
                 if Now.hour == 8 or Now.hour == 14 or Now.hour == 20:
                     card = random.choice([x for x in jsondata['Cards'] if x['rarity'] == "4"])
-                    file = f"{giturl}{card['animation']}"
-                    media = api_v1.media_upload(file)
+                    file_url = f"{giturl}{card['animation']}"
+
+                    response = requests.get(file_url)
+                    filename = 'gacha.mp4'
+                    with open(filename, 'wb') as f:
+                        f.write(response.content)
+                    media = api_v1.media_upload(filename)
                     media_ids.append(media.media_id)
+
                     tweet = f"★{card['rarity']}{card['alias']}{card['heroine']} ガチャ動画"
                 else :
                     card = random.choice(jsondata['Cards'])

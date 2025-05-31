@@ -231,7 +231,7 @@ else :
                 jsondata = json.load(json_file)
                 
                 if Now.hour == 8 or Now.hour == 14 or Now.hour == 20:
-                    card = random.choice([x for x in jsondata['Cards'] if x['rarity'] == "4"])
+                    card = random.choice([x for x in jsondata['Cards'] if x['rarity'] == "4" and x['animation'] != ""])
                     file_url = f"{giturl}{card['animation']}"
 
                     response = requests.get(file_url)

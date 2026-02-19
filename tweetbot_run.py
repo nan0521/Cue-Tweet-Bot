@@ -51,7 +51,7 @@ def connet_twitter(consumer_key, consumer_secret, access_token, access_token_sec
         return api_v1, api_v2
     except Exception as e:
         retries -= 1
-        time.sleep(10)
+        time.sleep(30)
         print(e)
         print('Retrying :', retries)
         return connet_twitter(consumer_key, consumer_secret, access_token, access_token_secret, retries)
@@ -63,7 +63,7 @@ def send_tweet(api, tweet, media_ids, counter = 0):
     try:
         api.create_tweet(text = tweet, media_ids=media_ids)
     except Exception as e:
-        time.sleep(10)
+        time.sleep(30)
         print(e)
         print('send tweet retrying :', counter)
         return send_tweet(api, tweet, media_ids, counter = counter+1)
@@ -163,7 +163,7 @@ else :
                 hb_tweet = f'本日{Now.month}/{Now.day}は{hasBirthdayChar[0]["name"]}の誕生日！🎂🎉'
                 hb_videofile = './happybirthday/hb_%02d.mp4' % (hasBirthdayChar[0]['id'])
                 hb_media = api_v1.media_upload(hb_videofile)
-                time.sleep(10)
+                time.sleep(30)
                 hb_media_ids = []
                 hb_media_ids.append(hb_media.media_id)
                 api_v2.create_tweet(text = hb_tweet, media_ids=hb_media_ids)
@@ -176,7 +176,7 @@ else :
             char = [data for data in Allchardata["Charactor"] if data["id"] == (Now.hour - 5)][0]
             file = './voice/%s/%02d/%s.mp4' % (SpecialDay["tag"], char["id"], SpecialDay["file"]) # 記得改檔案名
             media = api_v1.media_upload(file)
-            time.sleep(10)
+            time.sleep(30)
             media_ids.append(media.media_id)
             tweet = f'{char["name"]} {SpecialDay["name"]} ホームボイス'
         
@@ -186,7 +186,7 @@ else :
             # file = './voice/midnight/voice_home_midnight_%03d.mp4' % (charid)
             file = './live2d/midnight/%03d/%03d_%02d.mp4' % (charid, charid, costume)
             media = api_v1.media_upload(file)
-            time.sleep(10)
+            time.sleep(30)
             media_ids.append(media.media_id)
             tweet = f'{charname} ホームボイス 深夜'
 
@@ -196,7 +196,7 @@ else :
             # file = './voice/morning/voice_home_morning_%03d.mp4' % (charid)
             file = './live2d/morning/%03d/%03d_%02d.mp4' % (charid, charid, costume)
             media = api_v1.media_upload(file)
-            time.sleep(10)
+            time.sleep(30)
             media_ids.append(media.media_id)
             tweet = f'{charname} ホームボイス 朝'
 
@@ -206,7 +206,7 @@ else :
             # file = './voice/noon/voice_home_noon_%03d.mp4' % (charid)
             file = './live2d/noon/%03d/%03d_%02d.mp4' % (charid, charid, costume)
             media = api_v1.media_upload(file)
-            time.sleep(10)
+            time.sleep(30)
             media_ids.append(media.media_id)
             tweet = f'{charname} ホームボイス 昼'
 
@@ -216,7 +216,7 @@ else :
             # file = './voice/night/voice_home_night_%03d.mp4' % (charid)
             file = './live2d/night/%03d/%03d_%02d.mp4' % (charid, charid, costume)
             media = api_v1.media_upload(file)
-            time.sleep(10)
+            time.sleep(30)
             media_ids.append(media.media_id)
             tweet = f'{charname} ホームボイス 夜'
 
@@ -227,7 +227,7 @@ else :
         #     vocietext = {1 : '①', 2:'②', 3:'③'}
         #     file = './voice/home/%02d/voice_home_normal_%03d.mp4' % (charid, vocieid)
         #     media = api_v1.media_upload(file)
-        #     time.sleep(10)
+        #     time.sleep(30)
         #     media_ids.append(media.media_id)
         #     tweet = f'{charname} ホームボイス{vocietext[vocieid]}'
 
@@ -246,7 +246,7 @@ else :
                     with open(filename, 'wb') as f:
                         f.write(response.content)
                     media = api_v1.media_upload(filename)
-                    time.sleep(10)
+                    time.sleep(30)
                     media_ids.append(media.media_id)
 
                     tweet = f"★{card['rarity']}{card['alias']}{card['heroine']} ガチャ動画"
@@ -265,12 +265,12 @@ else :
                         with open(filename, 'wb') as f:
                             f.write(response.content)
                         media = api_v1.media_upload(filename)
-                        time.sleep(10)
+                        time.sleep(30)
                         media_ids.append(media.media_id)
 
                     tweet = f"★{card['rarity']}{card['alias']}{card['heroine']}"
 
         if len(media_ids) > 0 :
             print(tweet)
-            res = api_v2.create_tweet(text = tweet, media_ids=media_ids)
-            # send_tweet(api_v2, tweet, media_ids)
+            # res = api_v2.create_tweet(text = tweet, media_ids=media_ids)
+            send_tweet(api_v2, tweet, media_ids)

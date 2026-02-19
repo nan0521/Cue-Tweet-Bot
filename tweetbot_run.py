@@ -59,7 +59,7 @@ def connet_twitter(consumer_key, consumer_secret, access_token, access_token_sec
 
 def send_tweet(api, tweet, media_ids, counter = 0):
     if counter == 5:
-        return
+        raise Exception("send tweet ERROR")
     try:
         api.create_tweet(text = tweet, media_ids=media_ids)
     except Exception as e:
